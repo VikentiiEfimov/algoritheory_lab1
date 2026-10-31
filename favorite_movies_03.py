@@ -1,18 +1,20 @@
 def run():
-    # Есть строка с перечислением фильмов
-    my_favorite_movies = 'Терминатор, Пятый элемент, Аватар, Чужие, Назад в будущее'
-
     # Выведите на консоль с помощью индексации строки, последовательно:
-    #   первый фильм
-    #   последний
-    #   второй
-    #   второй с конца
     # Запятая не должна выводиться. Переопределять my_favorite_movies нельзя.
 
-    print(my_favorite_movies[:10])
-    print(my_favorite_movies[42:])
-    print(my_favorite_movies[12:25])
-    print(my_favorite_movies[35:40])
+    #   первый фильм
+    print(compute(0,10))
+    #   последний
+    print(compute(42,57))
+    #   второй
+    print(compute(12,25))
+    #   второй с конца
+    print(compute(35,40))
+    
+def compute(bg, nd):
+    # Есть строка с перечислением фильмов
+    my_favorite_movies = 'Терминатор, Пятый элемент, Аватар, Чужие, Назад в будущее'
+    return my_favorite_movies[bg:nd]
 
 if __name__ == "__main__":
     run()

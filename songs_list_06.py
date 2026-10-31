@@ -18,9 +18,7 @@ def run():
     # Обратите внимание, что суммирование чисел с плавающей точкой может давать погрешность,
     # округлите результат до 3 знаков после запятой
     target_songs = ['Halo', 'Enjoy the Silence', 'Clean']
-    list_time = sum([song[1] for song in violator_songs_list if song[0] in target_songs])
-    print(f"Три песни звучат {round(list_time, 3)} минут")
-
+    print(compute(violator_songs_list, target_songs, 'Т'))
 
     # Есть словарь песен группы Depeche Mode
     violator_songs_dict = {
@@ -40,8 +38,11 @@ def run():
     #   А другие три песни звучат ХХХ минут
     # Обратите внимание на округление
     other_songs = ['Sweetest Perfection', 'Policy of Truth', 'Blue Dress']
-    dict_time = sum([time for song, time in violator_songs_dict.items() if song in other_songs])
-    print(f'А другие три песни звучат {round(dict_time, 3)} минут')
-    
+    print(compute(violator_songs_dict.items(), other_songs, 'А другие т'))
+
+def compute(violator_songs, target_songs, title):
+    tm = sum([time for song, time in violator_songs if song in target_songs])
+    return f"{title}ри песни звучат {round(tm, 3)} минут"
+
 if __name__ == "__main__":
     run()

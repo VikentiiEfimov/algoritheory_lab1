@@ -1,7 +1,13 @@
 def run():
+    print(compute('Рост отца',
+                  lambda h: next(v for n, v in h if n == 'папа')))
+    print(compute('Общий рост моей семьи',
+                  lambda h: sum(v for _, v in h)))
+    
+def compute(title, aggregate):
     # Создайте списки:
     # моя семья (минимум 3 элемента, есть еще дедушки и бабушки, если что)
-    my_family = ['папа', 'мама', 'я', 'бабушка', 'дедушка', ['сестра']]
+    #my_family = ['папа', 'мама', 'я', 'бабушка', 'дедушка', 'сестра']
 
     # список списков приблизительного роста членов вашей семьи
     my_family_height = [
@@ -12,14 +18,7 @@ def run():
         ['дедушка', 172],
         ['сестра', 165]
     ]
+    return f'{title} - {aggregate(my_family_height)} см'
 
-    # Выведите на консоль рост отца в формате
-    father_height = next(height for name, height in my_family_height if name == 'папа')
-    print(f'Рост отца - {father_height} см')
-
-    # Выведите на консоль общий рост вашей семьи как сумму ростов всех членов
-    total_height = sum(height for _, height in my_family_height)
-    print(f'Общий рост моей семьи - {total_height} см')
-    
 if __name__ == "__main__":
     run()

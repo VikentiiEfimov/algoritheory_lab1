@@ -50,12 +50,15 @@ def run():
             {'shop': 'магнит', 'price': 62.99}
         ]
     }
+    for comm in compute(sweets): 
+        print(comm)
 
+def compute(sweets):
     for name, shoprice in sweets.items():
         comm = f'{name}\n'
         for sp in shoprice:
             comm += f' - в "{sp["shop"]}" стоит {sp["price"]} руб.\n'
-        print(comm)
+        yield comm
 
 if __name__ == "__main__":
     run()

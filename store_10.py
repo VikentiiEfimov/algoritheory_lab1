@@ -29,7 +29,11 @@ def run():
             {'quantity': 43, 'price': 97},
         ],
     }
+    
+    for item in compute(goods, store): 
+        print(item)
 
+def compute(goods, store):
     # Рассчитать на какую сумму лежит каждого товара на складе
     # и вывести в формате
     #   <товар> - <кол-во> шт, стоимость <сумма> руб
@@ -49,7 +53,7 @@ def run():
             total_quantity += batch['quantity']
             total_cost += batch['quantity'] * batch['price']
         
-        print(f'{name} - {total_quantity} шт, стоимость {total_cost} руб')
+        yield f'{name} - {total_quantity} шт, стоимость {total_cost} руб'
 
 if __name__ == "__main__":
     run()

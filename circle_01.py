@@ -1,31 +1,37 @@
 def run():
-    # Есть значение радиуса круга
-    radius = 42
-
     # Выведите на консоль значение площади этого круга с точностью до 4-х знаков после запятой
-    pi = 3.1415926
-    area = pi * (radius ** 2)
-    print(round(area, 4))
-
+    print(compute(area, None))
 
     # Далее, пусть есть координаты точки
     point_1 = (23, 34)
     # где 23 - координата х, 34 - координата у
-
-    # Если точка point лежит внутри того самого круга [центр в начале координат (0, 0), radius = 42],
-    # то выведите на консоль True, Или False, если точка лежит вовне круга.
-    distance_1 = (point_1[0] ** 2 + point_1[1] ** 2) ** 0.5
-    is_inside_1 = distance_1 <= radius
-    print(is_inside_1)
-
+    print(compute(point, point_1))
 
     # Аналогично для другой точки
     point_2 = (30, 30)
-    # Если точка point_2 лежит внутри круга (radius = 42), то выведите на консоль True,
-    # Или False, если точка лежит вовне круга.
-    distance_2 = (point_2[0] ** 2 + point_2[1] ** 2) ** 0.5
-    is_inside_2 = distance_2 <= radius
-    print(is_inside_2)
+    print(compute(point, point_2))
+
+
+def compute(obj, p):
+    # Есть значение радиуса круга
+    radius = 42
+    return obj(radius,p)
+
+
+def area(r, p=None):
+    pi = 3.1415926
+    area = pi * (r ** 2)
+    return round(area, 4)
+
+
+def point(r, p):
+    x = p[0]; y = p[1]
+    distance = (x ** 2 + y ** 2) ** 0.5
+     # Если точка point лежит внутри того самого круга [центр в начале координат (0, 0), radius = 42],
+    is_inside = distance <= r
+    # то выведите на консоль True, Или False, если точка лежит вовне круга.
+    return is_inside
+
 
 if __name__ == "__main__":
     run()
