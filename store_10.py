@@ -1,59 +1,94 @@
-def run():
-    # Есть словарь кодов товаров
+_name = None
+_quantity = None
+_price = None
+_store = {}
 
-    goods = {
-        'Лампа': '12345',
-        'Стол': '23456',
-        'Диван': '34567',
-        'Стул': '45678',
-    }
+def inp_goods():
+    global _name, _quantity, _price, _store
+    _name = input("Введите товар: ")
+    _quantity = None
+    _price = None
+    _store[_name] = []
+    print(f"Товар обозначен: {_name}")
 
-    # Есть словарь списков количества товаров на складе.
-    # Каждый товар может лежать в нескольких местах (партиях) с разной ценой.
+def inp_quant():
+    global _quantity
+    _quantity = int(input("Введите количество: "))
+    print(f"Количество установлено: {_quantity}")
 
-    store = {
-        '12345': [
-            {'quantity': 27, 'price': 42},
-        ],
-        '23456': [
-            {'quantity': 22, 'price': 510},
-            {'quantity': 32, 'price': 520},
-        ],
-        '34567': [
-            {'quantity': 2, 'price': 1200},
-            {'quantity': 1, 'price': 1150},
-        ],
-        '45678': [
-            {'quantity': 50, 'price': 100},
-            {'quantity': 12, 'price': 95},
-            {'quantity': 43, 'price': 97},
-        ],
-    }
-    
-    for item in compute(goods, store): 
-        print(item)
+def inp_price():
+    global _name, _quantity, _price, _store
+    _price = int(input("Введите цену: ")) 
+    _store[_name].append({'quantity': _quantity, 'price': _price})
+    print(f"Цена установлена: {_price}")
 
-def compute(goods, store):
-    # Рассчитать на какую сумму лежит каждого товара на складе
-    # и вывести в формате
-    #   <товар> - <кол-во> шт, стоимость <сумма> руб
+def establish_g():
+    global _quantity, _price; _quantity = _price = None
 
-    # Пример:
-    #   Лампа - 27 шт, стоимость 1134 руб
+def establish_v():
+    global _name; _name = None
+    establish_g()
 
-    for name, code in goods.items():
-        # Получаем список партий товара по коду
-        batches = store[code]
-        
+def reset():
+    global _store
+    _store.clear()
+    establish_v()
+    print("Список пуст")
+
+def compute(store):
+    for name, batches in store.items():
         total_quantity = 0
         total_cost = 0
-        
-        # Суммируем количество и стоимость по всем партиям
         for batch in batches:
             total_quantity += batch['quantity']
             total_cost += batch['quantity'] * batch['price']
-        
         yield f'{name} - {total_quantity} шт, стоимость {total_cost} руб'
 
-if __name__ == "__main__":
-    run()
+def otp_itm():
+    for item in compute(_store):
+        print(item)
+
+def get_menu():
+    current_menu = {}
+    if _name is None:
+        current_menu['1'] = ('Ввести товар', inp_goods)
+    elif _quantity is None:
+        current_menu['2'] = ('Ввести количество', inp_quant)
+    elif _price is None:
+        current_menu['3'] = ('Ввести цену', inp_price)
+    else:
+        current_menu['4'] = ('Следующие количество/цена', establish_g)
+        current_menu['5'] = ('Следующий товар', establish_v)
+        current_menu['6'] = ('Вывести склад', otp_itm)
+        current_menu['7'] = ('Сбросить список', reset)  
+    current_menu['0'] = ('Выход', None)
+    return current_menu
+
+mock_data = iter([  '1','Лампа', 
+                '2','27',
+                '3','42',  
+                    '5',
+                    '1','Стол', 
+                '2','22',
+                '3','510', 
+                    '4',
+                '2','32',
+                '3','520', 
+                    '5',
+                    '1','Диван', 
+                '2','2',
+                '3','1200', 
+                    '4',
+                '2','1',
+                '3','1150', 
+                    '5',
+                    '1','Стул', 
+                '2','50',
+                '3','100', 
+                    '4',
+                '2','12',
+                '3','95', 
+                    '4',
+                '2','43',
+                '3','97',
+                    '6'])

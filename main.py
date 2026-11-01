@@ -1,39 +1,53 @@
-from distance_00 import run as run_00
-from circle_01 import run as run_01
-from operations_02 import run as run_02 
-from favorite_movies_03 import run as run_03
-from my_family_04 import run as run_04
-from zoo_05 import run as run_05
-from songs_list_06 import run as run_06
-from secret_07 import run as run_07
-from garden_08 import run as run_08
-from shopping_09 import run as run_09
-from store_10 import run as run_10
+from favorite_movies_03 import get_menu as menu_03, mock_data as mock_03
 
 
 TASKS = {
-    "00": ("Расстояние", run_00),
-    "01": ("Окружность", run_01),
-    "02": ("Операции", run_02),
-    "03": ("Любимые фильмы", run_03),
-    "04": ("Моя семья", run_04),
-    "05": ("Зоопарк", run_05),
-    "06": ("Список песен", run_06),
-    "07": ("Секрет", run_07),
-    "08": ("Сад", run_08),
-    "09": ("Покупки", run_09),
-    "10": ("Склад", run_10),
+    "03": ("Любимые фильмы", menu_03, mock_03),
 }
 
+_wring = True
+def wring(menu):
+    print()
+    for k, (t, _) in menu.items(): print(f"{k}. {t}")
+# для отладки:__builtins__.input  __builtins__["input"]
+
 def run_task(key):
-    title, func = TASKS[key]
+    global _wring
+    title, menu_getter, mock = TASKS[key]
     print(f"\n=== {key}: {title} ===")
-    func()
+    original_input = __builtins__.input
+    while True:
+        menu = menu_getter()
+        if _wring: wring(menu)
+        choice = input("Выбор: ").strip() 
+        if choice == '-1':
+            print("\nВЫВОД ЗАГЛУШКИ")
+            _wring = False
+            def mock_input(prompt=""):
+                global _wring
+                try:
+                    return next(mock)
+                except StopIteration:
+                    _wring = True; wring(menu)
+                    __builtins__.input = original_input
+                    return original_input(prompt)
+            __builtins__.input = mock_input
+            continue
+        else:
+            entry = menu.get(choice)
+            if entry is None:
+                print("Нет такого пункта")
+                continue
+            if entry[1] is None:
+                break
+            entry[1]()
 
 def main():
     for key in TASKS:
         run_task(key)
 
 if __name__ == "__main__":
-    print(f"{'='*22}\nВерхнеуровневый модуль\n{'='*22}")
+    print("=" * 22)
+    print("Верхнеуровневый модуль")
+    print("=" * 22)
     main()
