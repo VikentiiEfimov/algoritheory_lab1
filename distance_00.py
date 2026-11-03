@@ -26,8 +26,11 @@ def establish():
     _city = None
     
 def reset():
-    global _sites
+    global _sites, _city,  _x, _y
     _sites.clear()
+    _city = None
+    _x = None
+    _y = None
     print("Словарь пуст")
 
 def distances(sites):
